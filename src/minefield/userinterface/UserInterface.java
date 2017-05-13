@@ -2,7 +2,13 @@ package minefield.userinterface;
 
 import javax.swing.*;
 import java.awt.*;
-import minefield.game.GameLogic;
+import java.awt.event.ActionEvent;
+import java.security.Key;
+import java.util.ArrayList;
+
+import minefield.game.*;
+
+import javax.swing.*;
 
 
 public class UserInterface extends JFrame {
@@ -21,17 +27,20 @@ public class UserInterface extends JFrame {
         // Set window location
         setLocation(100, 100);
 
-        gameLogic.getGameboard();
-
+        // Layout the components
         setComponents();
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+//        KeyBindings keyBindings = new KeyBindings();
 
     }
 
     private void setComponents() {
 
-        JPanel panel = new JPanel(new BorderLayout());
+        //JPanel panel = new JPanel(new BorderLayout());
+
+        KeyBindings panel = new KeyBindings(new BorderLayout(), this);
 
         Container container = this.getContentPane();
 
@@ -54,7 +63,7 @@ public class UserInterface extends JFrame {
 
     private void updatePlayField() {
 
-        int[][] gameboard = gameLogic.getGameboard();
+        ArrayList<GameObject>[][] gameboard = gameLogic.getGameboard();
 
         playfield.removeAll();
 
@@ -62,12 +71,50 @@ public class UserInterface extends JFrame {
         {
             for(int j=0; j<gameboard[0].length; j++)
             {
-                JButton btButton = new JButton(""+gameboard[i][j]);
+                String text="";
+                if(gameboard[i][j].size()==0)
+                    text = " ";
+
+                else if(containsObject(gameboard[i][j], new GameObjectPlayer()))
+                    text = "P";
+                else if(containsObject(gameboard[i][j], new GameObjectMine()))
+                    text = "X";
+                else if(containsObject(gameboard[i][j], new GameObjectGoal()))
+                    text = "G";
+
+                containsObject(gameboard[i][j], new GameObjectPlayer());
+
+                JButton btButton = new JButton(text);
                 btButton.setSize(20,20);
                 btButton.setMargin(new Insets(0,6, 0,6));
                 playfield.add(btButton);
             }
         }
+
+        playfield.revalidate();
+        playfield.repaint();
+
+    }
+
+    private boolean containsObject(ArrayList<GameObject> objectList, GameObject object) {
+
+        for(int i=0; i<objectList.size(); i++)
+        {
+            if(objectList.get(i).getClass().getSimpleName().matches(object.getClass().getSimpleName()))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public void movePlayer(String direction)
+    {
+        System.out.println(direction);
+
+        gameLogic.movePlayer(direction);
+        updatePlayField();
     }
 
     public static void main(String[] args) {
