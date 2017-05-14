@@ -49,6 +49,7 @@ public class GameLogic {
             for(int j = 0; j < this.gameboard[0].length; j++)
             {
                 if(containsObject(this.gameboard[i][j], new GameObjectPlayer()))
+//                if(this.gameboard[i][j].contains(new GameObjectPlayer()))
                 {
                     horizontal = i;
                     vertical = j;
@@ -63,28 +64,28 @@ public class GameLogic {
             if(isMoveLegal(horizontal,vertical, direction)==false)
                 return;
             this.gameboard[horizontal][vertical+1].add(new GameObjectPlayer());
-            this.gameboard[horizontal][vertical].remove(0);
+            this.gameboard[horizontal][vertical].remove(new GameObjectPlayer());
         }
         else if(direction.matches("Down"))
         {
             if(isMoveLegal(horizontal,vertical, direction)==false)
                 return;
             this.gameboard[horizontal+1][vertical].add(new GameObjectPlayer());
-            this.gameboard[horizontal][vertical].remove(0);
+            this.gameboard[horizontal][vertical].remove(new GameObjectPlayer());
         }
         else if(direction.matches("Left"))
         {
             if(isMoveLegal(horizontal,vertical, direction)==false)
                 return;
             this.gameboard[horizontal][vertical-1].add(new GameObjectPlayer());
-            this.gameboard[horizontal][vertical].remove(0);
+            this.gameboard[horizontal][vertical].remove(new GameObjectPlayer());
         }
         else if(direction.matches("Up"))
         {
             if(isMoveLegal(horizontal,vertical, direction)==false)
                 return;
             this.gameboard[horizontal-1][vertical].add(new GameObjectPlayer());
-            this.gameboard[horizontal][vertical].remove(0);
+            this.gameboard[horizontal][vertical].remove(new GameObjectPlayer());
         }
     }
 
@@ -127,6 +128,22 @@ public class GameLogic {
         return true;
     }
 
+    public GameObject testForGameOver(){
+
+        for(int i=0; i<this.gameboard.length; i++)
+        {
+            for(int j=0; j<this.gameboard[0].length; j++)
+            {
+                if(this.gameboard[i][j].contains(new GameObjectPlayer()) && this.gameboard[i][j].contains(new GameObjectGoal()))
+                    return new GameObjectGoal();
+                if(this.gameboard[i][j].contains(new GameObjectPlayer()) && this.gameboard[i][j].contains(new GameObjectMine()))
+                    return new GameObjectMine();
+            }
+        }
+
+        return new GameObjectPlayer();
+    }
+    
     private void populateMineField() {
 
 
@@ -141,7 +158,7 @@ public class GameLogic {
 
         this.gameboard[6][0].add(new GameObjectPlayer());
         this.gameboard[6][19].add(new GameObjectGoal());
-        
+
     }
 
 }

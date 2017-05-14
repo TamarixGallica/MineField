@@ -114,6 +114,16 @@ public class UserInterface extends JFrame {
         System.out.println(direction);
 
         gameLogic.movePlayer(direction);
+
+        GameObject gameOver = gameLogic.testForGameOver();
+
+        if(gameOver.equals(new GameObjectMine()))
+            System.out.println("Miina koitui kohtaloksi");
+        else if(gameOver.equals(new GameObjectGoal()))
+            System.out.println("Peli voitettiin");
+        else
+            System.out.println("Peli jatkuu");
+
         updatePlayField();
     }
 
