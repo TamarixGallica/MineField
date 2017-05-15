@@ -9,6 +9,8 @@ public class KeyBindings extends JPanel {
 
     private UserInterface userInterface;
 
+    private boolean inputActive=true;
+
     public KeyBindings(BorderLayout layout, UserInterface userInterface) {
 
         super(layout);
@@ -26,6 +28,14 @@ public class KeyBindings extends JPanel {
         }
     }
 
+    public void activateInput(){
+        this.inputActive=true;
+    }
+
+    public void deactivateInput(){
+        this.inputActive=false;
+    }
+
     private class MyArrowBinding extends AbstractAction {
         public MyArrowBinding(String text) {
             super(text);
@@ -34,10 +44,13 @@ public class KeyBindings extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            String actionCommand = e.getActionCommand();
-            System.out.println("Key Binding: " + actionCommand);
+            if(inputActive==true)
+            {
+                String actionCommand = e.getActionCommand();
+                System.out.println("Key Binding: " + actionCommand);
 
-            userInterface.movePlayer(actionCommand);
+                userInterface.movePlayer(actionCommand);
+            }
         }
     }
 }

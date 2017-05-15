@@ -117,14 +117,24 @@ public class UserInterface extends JFrame {
 
         GameObject gameOver = gameLogic.testForGameOver();
 
-        if(gameOver.equals(new GameObjectMine()))
+        if(gameOver.equals(new GameObjectMine())) {
             System.out.println("Miina koitui kohtaloksi");
-        else if(gameOver.equals(new GameObjectGoal()))
+            showGameEnd(false);
+
+        }
+        else if(gameOver.equals(new GameObjectGoal())) {
             System.out.println("Peli voitettiin");
+        }
         else
             System.out.println("Peli jatkuu");
 
         updatePlayField();
+    }
+
+    private void showGameEnd(boolean gameWon)
+    {
+        JOptionPane.showMessageDialog(null, "Teeesti", "Testi", JOptionPane.INFORMATION_MESSAGE);
+//        this.playfield.getParent().getParent().enableInputMethods(false);
     }
 
     public static void main(String[] args) {
