@@ -14,7 +14,9 @@ import javax.swing.*;
 public class UserInterface extends JFrame {
 
     private JPanel playfield = new JPanel();
-    private GameLogic gameLogic = new GameLogic();
+//    private GameLogic gameLogic = new GameLogic();
+    private GameLogic gameLogic;
+    private KeyBindings panel;
 
     public UserInterface() {
 
@@ -36,17 +38,21 @@ public class UserInterface extends JFrame {
 
     }
 
-    private void setComponents() {
+    public void setComponents() {
 
         //JPanel panel = new JPanel(new BorderLayout());
 
-        KeyBindings panel = new KeyBindings(new BorderLayout(), this);
+        this.gameLogic = new GameLogic();
+
+        panel = new KeyBindings(new BorderLayout(), this);
 
         Container container = this.getContentPane();
 
         container.setLayout(new BorderLayout());
 
         JButton btNewGame = new JButton("New game");
+
+        btNewGame.addActionListener(new AlsNewGame(this));
 
         container.add(panel);
 
@@ -57,6 +63,8 @@ public class UserInterface extends JFrame {
         //playfield.setBorder(BorderFactory.createLineBorder(Color.black, 2, true));
 
         playfield.setLayout(new GridLayout(13, 20));
+
+        panel.activateInput();
 
         updatePlayField();
     }
@@ -117,6 +125,8 @@ public class UserInterface extends JFrame {
 
         GameObject gameOver = gameLogic.testForGameOver();
 
+        panel.deactivateInput();
+
         if(gameOver.equals(new GameObjectMine())) {
             System.out.println("Miina koitui kohtaloksi");
             showGameEnd(false);
@@ -125,8 +135,10 @@ public class UserInterface extends JFrame {
         else if(gameOver.equals(new GameObjectGoal())) {
             System.out.println("Peli voitettiin");
         }
-        else
+        else {
             System.out.println("Peli jatkuu");
+            panel.activateInput();
+        }
 
         updatePlayField();
     }
@@ -134,7 +146,7 @@ public class UserInterface extends JFrame {
     private void showGameEnd(boolean gameWon)
     {
         JOptionPane.showMessageDialog(null, "Teeesti", "Testi", JOptionPane.INFORMATION_MESSAGE);
-//        this.playfield.getParent().getParent().enableInputMethods(false);
+        this.playfield.getParent().getParent().enableInputMethods(false);
     }
 
     public static void main(String[] args) {

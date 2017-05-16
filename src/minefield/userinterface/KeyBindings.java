@@ -9,7 +9,7 @@ public class KeyBindings extends JPanel {
 
     private UserInterface userInterface;
 
-    private boolean inputActive=true;
+    private boolean inputActive=false;
 
     public KeyBindings(BorderLayout layout, UserInterface userInterface) {
 
