@@ -134,6 +134,7 @@ public class UserInterface extends JFrame {
         }
         else if(gameOver.equals(new GameObjectGoal())) {
             System.out.println("Peli voitettiin");
+            showGameEnd(true);
         }
         else {
             System.out.println("Peli jatkuu");
@@ -145,8 +146,14 @@ public class UserInterface extends JFrame {
 
     private void showGameEnd(boolean gameWon)
     {
-        JOptionPane.showMessageDialog(null, "Teeesti", "Testi", JOptionPane.INFORMATION_MESSAGE);
-        this.playfield.getParent().getParent().enableInputMethods(false);
+        if(gameWon == false) {
+            JOptionPane.showMessageDialog(null, "Boom!", "Game Over", JOptionPane.INFORMATION_MESSAGE);
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "Congratulations!", "Game Over", JOptionPane.INFORMATION_MESSAGE);
+        }
+
     }
 
     public static void main(String[] args) {
