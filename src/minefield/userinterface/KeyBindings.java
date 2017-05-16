@@ -18,8 +18,11 @@ public class KeyBindings extends JPanel {
         this.userInterface = userInterface;
 
         ActionMap actionMap = getActionMap();
-        int condition = JComponent.WHEN_IN_FOCUSED_WINDOW;
-        InputMap inputMap = getInputMap(condition);
+//        int condition = JComponent.WHEN_IN_FOCUSED_WINDOW;
+//        InputMap inputMap = getInputMap(condition);
+
+        InputMap inputMap = getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+
 
         for(Direction direction : Direction.values())
         {

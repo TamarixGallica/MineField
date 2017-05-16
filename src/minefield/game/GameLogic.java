@@ -1,12 +1,14 @@
 package minefield.game;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class GameLogic {
 
     private ArrayList<GameObject>[][] gameboard = new ArrayList[13][20];
 
-//    private int gameboard[][];
+    private boolean[][] visitedSquares = new boolean[gameboard.length][gameboard[0].length];
+
 
     public GameLogic() {
 
@@ -14,10 +16,11 @@ public class GameLogic {
 
 //        gameboard = new ArrayList<GameObject>[13][20];
 
-        // Initialize gameboard
+        // Initialize gameboard and visited squares
         for(int i = 0; i < gameboard.length; i++) {
             for(int j = 0; j < gameboard[0].length; j++) {
                 gameboard[i][j] = new ArrayList<GameObject>();
+                visitedSquares[i][j] = false;
             }
         }
 
@@ -27,7 +30,8 @@ public class GameLogic {
 
         System.out.println("Pelilaudan koko: "+gameboard.length+" x "+gameboard[0].length);
 
-        populateMineField();
+        //populateMineField();
+        populateMineFieldByRandom();
 
         /*
         gameboard[6][0]=16;
@@ -65,6 +69,7 @@ public class GameLogic {
                 return;
             this.gameboard[horizontal][vertical+1].add(new GameObjectPlayer());
             this.gameboard[horizontal][vertical].remove(new GameObjectPlayer());
+            this.visitedSquares[horizontal][vertical+1]=true;
         }
         else if(direction.matches("Down"))
         {
@@ -72,6 +77,7 @@ public class GameLogic {
                 return;
             this.gameboard[horizontal+1][vertical].add(new GameObjectPlayer());
             this.gameboard[horizontal][vertical].remove(new GameObjectPlayer());
+            this.visitedSquares[horizontal+1][vertical]=true;
         }
         else if(direction.matches("Left"))
         {
@@ -79,6 +85,7 @@ public class GameLogic {
                 return;
             this.gameboard[horizontal][vertical-1].add(new GameObjectPlayer());
             this.gameboard[horizontal][vertical].remove(new GameObjectPlayer());
+            this.visitedSquares[horizontal][vertical-1]=true;
         }
         else if(direction.matches("Up"))
         {
@@ -86,6 +93,7 @@ public class GameLogic {
                 return;
             this.gameboard[horizontal-1][vertical].add(new GameObjectPlayer());
             this.gameboard[horizontal][vertical].remove(new GameObjectPlayer());
+            this.visitedSquares[horizontal-1][vertical]=true;
         }
     }
 
@@ -143,7 +151,39 @@ public class GameLogic {
 
         return new GameObjectPlayer();
     }
-    
+
+    public int getNumberOfSurroundingMines(int i, int j)
+    {
+        int returnValue=0;
+
+//        ArrayList<int[][]> surroudingSquare = new ArrayList<int[][]>();
+
+        for(int ii=i-1; ii<=i+1; ii++)
+        {
+            for(int jj=j-1; jj<=j+1; jj++)
+            {
+                if(ii==i && jj==j)
+                    continue;
+                try{
+                    if(this.gameboard[ii][jj].contains(new GameObjectMine()))
+                    {
+                        returnValue++;
+                    }
+                }
+                catch (Exception ex) {
+                    // No need to handle this exception
+                }
+            }
+        }
+
+        return returnValue;
+
+    }
+
+    public boolean isSquareVisited(int i, int j) {
+        return this.visitedSquares[i][j];
+    }
+
     private void populateMineField() {
 
 
@@ -157,6 +197,39 @@ public class GameLogic {
         this.gameboard[5][7].remove(this.gameboard[5][7].get(0));
 
         this.gameboard[6][0].add(new GameObjectPlayer());
+        this.visitedSquares[6][0]=true;
+        this.gameboard[6][19].add(new GameObjectGoal());
+
+    }
+
+    private void populateMineFieldByRandom() {
+
+        for(int i=0; i<50; i++)
+        {
+            Random r = new Random();
+            int x = r.nextInt(this.gameboard.length);
+            int y = r.nextInt(this.gameboard[0].length);
+            this.gameboard[x][y].add(new GameObjectMine());
+        }
+
+        this.gameboard[5][0].clear();
+        this.gameboard[5][1].clear();
+        this.gameboard[6][0].clear();
+        this.gameboard[6][1].clear();
+        this.gameboard[7][0].clear();
+        this.gameboard[7][1].clear();
+
+        this.gameboard[6][0].add(new GameObjectPlayer());
+        this.visitedSquares[6][0]=true;
+
+        this.gameboard[5][18].clear();
+        this.gameboard[5][19].clear();
+        this.gameboard[6][18].clear();
+        this.gameboard[6][19].clear();
+        this.gameboard[7][18].clear();
+        this.gameboard[7][19].clear();
+
+
         this.gameboard[6][19].add(new GameObjectGoal());
 
     }

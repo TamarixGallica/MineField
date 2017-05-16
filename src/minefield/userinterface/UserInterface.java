@@ -2,13 +2,10 @@ package minefield.userinterface;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.security.Key;
 import java.util.ArrayList;
 
 import minefield.game.*;
 
-import javax.swing.*;
 
 
 public class UserInterface extends JFrame {
@@ -79,20 +76,43 @@ public class UserInterface extends JFrame {
         {
             for(int j=0; j<gameboard[0].length; j++)
             {
+
+                JButton btButton = new JButton();
+
                 String text="";
                 if(gameboard[i][j].size()==0)
-                    text = " ";
+                {
+                    if(this.gameLogic.isSquareVisited(i, j))
+                    {
+                        text=Integer.toString(this.gameLogic.getNumberOfSurroundingMines(i, j));
+                    }
+                    else
+                        text="";
+                }
+//                    text = " ";
+//                    text = ""+this.gameLogic.getNumberOfSurroundingMines(i,j);
 
-                else if(containsObject(gameboard[i][j], new GameObjectPlayer()))
-                    text = "P";
+                else if(containsObject(gameboard[i][j], new GameObjectMine()) && containsObject(gameboard[i][j], new GameObjectPlayer()))
+                {
+                    text="X";
+                    btButton.setBackground(Color.RED);
+                }
+                else if(containsObject(gameboard[i][j], new GameObjectPlayer())) {
+                    text=Integer.toString(this.gameLogic.getNumberOfSurroundingMines(i, j));
+                    btButton.setBackground(Color.PINK);
+                }
                 else if(containsObject(gameboard[i][j], new GameObjectMine()))
-                    text = "X";
-                else if(containsObject(gameboard[i][j], new GameObjectGoal()))
-                    text = "G";
+                    text = " ";
+                    //text="X";
+                else if(containsObject(gameboard[i][j], new GameObjectGoal())) {
+                    text = " ";
+                    btButton.setBackground(Color.GREEN);
+                }
 
                 containsObject(gameboard[i][j], new GameObjectPlayer());
 
-                JButton btButton = new JButton(text);
+                btButton.setEnabled(false);
+                btButton.setText(text);
                 btButton.setSize(20,20);
                 btButton.setMargin(new Insets(0,6, 0,6));
                 playfield.add(btButton);
