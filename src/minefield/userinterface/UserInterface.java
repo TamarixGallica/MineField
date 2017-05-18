@@ -52,7 +52,7 @@ public class UserInterface extends JFrame {
 
         btNewGame.addActionListener(new AlsNewGame(this));
 
-        btNewGame.setBorder(BorderFactory.createEmptyBorder(2,5,2,5));
+//        btNewGame.setBorder(BorderFactory.createEmptyBorder(2,5,2,5));
 
         container.add(panel);
 
@@ -63,6 +63,8 @@ public class UserInterface extends JFrame {
         panel.add(topPanel, BorderLayout.NORTH);
 
         JLabel lbNumberOfMines = new JLabel("Mines: ");
+
+        lbNumberOfMines.setBorder(BorderFactory.createEmptyBorder(2, 5, 2, 5));
 
         topPanel.add(lbNumberOfMines, BorderLayout.WEST);
 
