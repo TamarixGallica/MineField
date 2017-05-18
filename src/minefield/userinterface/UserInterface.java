@@ -14,6 +14,7 @@ public class UserInterface extends JFrame {
 //    private GameLogic gameLogic = new GameLogic();
     private GameLogic gameLogic;
     private KeyBindings panel;
+    private JLabel lbVisitedSquares = new JLabel();
 
     public UserInterface() {
 
@@ -51,9 +52,21 @@ public class UserInterface extends JFrame {
 
         btNewGame.addActionListener(new AlsNewGame(this));
 
+        btNewGame.setBorder(BorderFactory.createEmptyBorder(2,5,2,5));
+
         container.add(panel);
 
-        panel.add(btNewGame, BorderLayout.NORTH);
+        JPanel topPanel = new JPanel(new BorderLayout());
+
+        topPanel.add(btNewGame, BorderLayout.EAST);
+
+        panel.add(topPanel, BorderLayout.NORTH);
+
+        JLabel lbNumberOfMines = new JLabel("Mines: ");
+
+        topPanel.add(lbNumberOfMines, BorderLayout.WEST);
+
+        topPanel.add(this.lbVisitedSquares, BorderLayout.CENTER);
 
         panel.add(playfield, BorderLayout.CENTER);
 
@@ -63,7 +76,11 @@ public class UserInterface extends JFrame {
 
         panel.activateInput();
 
+        this.lbVisitedSquares.setHorizontalAlignment(SwingConstants.CENTER);
+
         updatePlayField();
+
+        lbNumberOfMines.setText("Mines: "+this.gameLogic.getNumberOfMines());
     }
 
     private void updatePlayField() {
@@ -102,8 +119,8 @@ public class UserInterface extends JFrame {
                     btButton.setBackground(Color.PINK);
                 }
                 else if(containsObject(gameboard[i][j], new GameObjectMine()))
-//                    text = " ";
-                    text="X";
+                    text = " ";
+//                    text="X";
                 else if(containsObject(gameboard[i][j], new GameObjectGoal())) {
                     text = " ";
                     btButton.setBackground(Color.GREEN);
@@ -119,8 +136,12 @@ public class UserInterface extends JFrame {
             }
         }
 
+        this.lbVisitedSquares.setText("Visited squares: "+this.gameLogic.getNumberOfVisitedSquares() +"/"+ this.gameLogic.getSizeX()*this.gameLogic.getSizeY() );
+
         playfield.revalidate();
         playfield.repaint();
+
+
 
     }
 

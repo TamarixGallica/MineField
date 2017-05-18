@@ -47,6 +47,64 @@ public class GameLogic {
         return this.gameboard;
     }
 
+    // Returns number of visited squares
+    public int getNumberOfVisitedSquares()
+    {
+        // Start with zero squares
+        int returnValue=0;
+
+        // Iterate over each row
+        for(boolean[] row : this.visitedSquares)
+        {
+            // Iterate over each square
+            for(boolean square : row)
+            {
+                // If square contains a mine (square is true) accumulate return value by one
+                if(square==true)
+                {
+                    returnValue++;
+                }
+            }
+        }
+
+        return returnValue;
+    }
+
+    // returns width of the gameboard
+    public int getSizeX()
+    {
+        return this.gameboard.length;
+    }
+
+    // Returns height of the gameboard
+    public int getSizeY()
+    {
+        return this.gameboard[0].length;
+    }
+
+    // Calculates number of mines placed
+    public int getNumberOfMines()
+    {
+        // Start with zero mines
+        int returnValue=0;
+
+        // Iterate over each row
+        for(ArrayList<GameObject> row[] : this.gameboard)
+        {
+            // Iterate over each square
+            for(ArrayList<GameObject> square : row)
+            {
+                // If there's a mine in the square accumulate return value
+                if(square.contains(new GameObjectMine()))
+                {
+                    returnValue++;
+                }
+            }
+        }
+
+        return returnValue;
+    }
+
     public void movePlayer(String direction)
     {
         int horizontal = -1;
