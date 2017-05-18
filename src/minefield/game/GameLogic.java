@@ -7,8 +7,11 @@ public class GameLogic {
 
     private ArrayList<GameObject>[][] gameboard = new ArrayList[13][20];
 
+    // Track squares player has visited
     private boolean[][] visitedSquares = new boolean[gameboard.length][gameboard[0].length];
 
+    // Store number of mines in surrounding squares
+    private int[][] surroundingMines = new int[13][20];
 
     public GameLogic() {
 
@@ -154,6 +157,11 @@ public class GameLogic {
 
     public int getNumberOfSurroundingMines(int i, int j)
     {
+        return this.surroundingMines[i][j];
+    }
+
+    private int countNumberOfSurroundingMines(int i, int j)
+    {
         int returnValue=0;
 
 //        ArrayList<int[][]> surroudingSquare = new ArrayList<int[][]>();
@@ -232,6 +240,13 @@ public class GameLogic {
 
         this.gameboard[6][19].add(new GameObjectGoal());
 
+        for(int i=0; i<this.gameboard.length; i++)
+        {
+            for(int j=0; j<this.gameboard[0].length; j++)
+            {
+                this.surroundingMines[i][j]=this.countNumberOfSurroundingMines(i, j);
+            }
+        }
     }
 
 }

@@ -102,8 +102,8 @@ public class UserInterface extends JFrame {
                     btButton.setBackground(Color.PINK);
                 }
                 else if(containsObject(gameboard[i][j], new GameObjectMine()))
-                    text = " ";
-                    //text="X";
+//                    text = " ";
+                    text="X";
                 else if(containsObject(gameboard[i][j], new GameObjectGoal())) {
                     text = " ";
                     btButton.setBackground(Color.GREEN);
