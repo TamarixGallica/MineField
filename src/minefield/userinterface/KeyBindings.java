@@ -18,8 +18,6 @@ public class KeyBindings extends JPanel {
         this.userInterface = userInterface;
 
         ActionMap actionMap = getActionMap();
-//        int condition = JComponent.WHEN_IN_FOCUSED_WINDOW;
-//        InputMap inputMap = getInputMap(condition);
 
         InputMap inputMap = getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
 
@@ -50,7 +48,6 @@ public class KeyBindings extends JPanel {
             if(inputActive==true)
             {
                 String actionCommand = e.getActionCommand();
-                System.out.println("Key Binding: " + actionCommand);
 
                 userInterface.movePlayer(actionCommand);
             }

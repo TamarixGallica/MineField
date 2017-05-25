@@ -11,7 +11,6 @@ import minefield.game.*;
 public class UserInterface extends JFrame {
 
     private JPanel playfield = new JPanel();
-//    private GameLogic gameLogic = new GameLogic();
     private GameLogic gameLogic;
     private KeyBindings panel;
     private JLabel lbVisitedSquares = new JLabel();
@@ -32,13 +31,11 @@ public class UserInterface extends JFrame {
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-//        KeyBindings keyBindings = new KeyBindings();
 
     }
 
     public void setComponents() {
 
-        //JPanel panel = new JPanel(new BorderLayout());
 
         this.gameLogic = new GameLogic();
 
@@ -51,8 +48,6 @@ public class UserInterface extends JFrame {
         JButton btNewGame = new JButton("New game");
 
         btNewGame.addActionListener(new AlsNewGame(this));
-
-//        btNewGame.setBorder(BorderFactory.createEmptyBorder(2,5,2,5));
 
         container.add(panel);
 
@@ -71,8 +66,6 @@ public class UserInterface extends JFrame {
         topPanel.add(this.lbVisitedSquares, BorderLayout.CENTER);
 
         panel.add(playfield, BorderLayout.CENTER);
-
-        //playfield.setBorder(BorderFactory.createLineBorder(Color.black, 2, true));
 
         playfield.setLayout(new GridLayout(13, 20));
 
@@ -108,8 +101,6 @@ public class UserInterface extends JFrame {
                     else
                         text="";
                 }
-//                    text = " ";
-//                    text = ""+this.gameLogic.getNumberOfSurroundingMines(i,j);
 
                 else if(containsObject(gameboard[i][j], new GameObjectMine()) && containsObject(gameboard[i][j], new GameObjectPlayer()))
                 {
@@ -162,8 +153,6 @@ public class UserInterface extends JFrame {
 
     public void movePlayer(String direction)
     {
-        System.out.println(direction);
-
         gameLogic.movePlayer(direction);
 
         GameObject gameOver = gameLogic.testForGameOver();
@@ -171,16 +160,13 @@ public class UserInterface extends JFrame {
         panel.deactivateInput();
 
         if(gameOver.equals(new GameObjectMine())) {
-            System.out.println("Miina koitui kohtaloksi");
             showGameEnd(false);
 
         }
         else if(gameOver.equals(new GameObjectGoal())) {
-            System.out.println("Peli voitettiin");
             showGameEnd(true);
         }
         else {
-            System.out.println("Peli jatkuu");
             panel.activateInput();
         }
 

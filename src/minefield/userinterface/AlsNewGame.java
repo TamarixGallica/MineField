@@ -13,7 +13,6 @@ public class AlsNewGame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        System.out.println("Aloitettaisiin uusi peli");
         this.userInterface.setComponents();
     }
 }
